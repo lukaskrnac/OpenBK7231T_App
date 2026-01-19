@@ -155,7 +155,7 @@ void Bridge_driver_QuickFrame()
         {
             if (br_ctrl[ch].pulseCnt>0)
             {
-                /* Pulse timer */
+                /* Pulse timer  */
                 br_ctrl[ch].pulseCnt--;
                 if (br_ctrl[ch].pulseCnt == 0)
                 {
