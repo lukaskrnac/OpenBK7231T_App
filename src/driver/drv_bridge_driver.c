@@ -22,7 +22,7 @@ typedef struct BRIDGE_CONTROL {
 /* Local variables */
 static BRIDGE_CONTROL *br_ctrl = NULL;
 static int ch_count = 0;
-static int bridge_pulse_len = 2;
+static int bridge_pulse_len = 50;
 
 /**************************************************************************************/
 commandResult_t Bridge_Pulse_length(const void *context, const char *cmd, const char *args, int cmdFlags)
@@ -115,6 +115,7 @@ void Bridge_driver_Init()
         {
             br_ctrl[ch].channel = PIN_GetPinChannelForPinIndex(br_ctrl[ch].GPIO_HLW_FWD);
             br_ctrl[ch].new_state = CHANNEL_Get(br_ctrl[ch].channel);
+			br_ctrl[ch].current_state = br_ctrl[ch].new_state;  // no pulse after start
             addLogAdv(LOG_INFO, LOG_FEATURE_DRV, "BR%i GPIO_HLW_FWD = %i\n", ch, br_ctrl[ch].GPIO_HLW_FWD);
             addLogAdv(LOG_INFO, LOG_FEATURE_DRV, "BR%i GPIO_HLW_REV = %i\n", ch, br_ctrl[ch].GPIO_HLW_REV);
             addLogAdv(LOG_INFO, LOG_FEATURE_DRV, "BR%i Channel      = %i\n", ch, br_ctrl[ch].channel);
