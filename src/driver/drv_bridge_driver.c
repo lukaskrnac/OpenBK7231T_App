@@ -22,7 +22,7 @@ typedef struct BRIDGE_CONTROL {
 /* Local variables */
 static BRIDGE_CONTROL *br_ctrl = NULL;
 static int ch_count = 0;
-static int bridge_pulse_len = 50;
+static int bridge_pulse_len = 2;
 
 /**************************************************************************************/
 commandResult_t Bridge_Pulse_length(const void *context, const char *cmd, const char *args, int cmdFlags)
@@ -50,11 +50,6 @@ commandResult_t Bridge_Pulse_length(const void *context, const char *cmd, const 
     bridge_pulse_len = pulse_len;
     addLogAdv(LOG_INFO, LOG_FEATURE_DRV, "Bridge Pulse Length: %i\n", bridge_pulse_len);
 	
-	// --- New - save to flash ---
-	CFG_SetShort("bridgePulse", bridge_pulse_len);
-	
-	addLogAdv(LOG_INFO, LOG_FEATURE_DRV,"Bridge Pulse Length: %i\n", bridge_pulse_len);
-
     return CMD_RES_OK;
 }
 
@@ -62,13 +57,6 @@ commandResult_t Bridge_Pulse_length(const void *context, const char *cmd, const 
 // MosFet Bridge driver
 void Bridge_driver_Init() 
 {
-	short tmp;
-    if(CFG_HasKey("bridgePulse")) {
-        CFG_GetShort("bridgePulse", &tmp);
-        bridge_pulse_len = tmp;
-		
-    	addLogAdv(LOG_INFO, LOG_FEATURE_DRV,"Loaded bridge pulse from flash: %i\n",bridge_pulse_len);
-	}	
     int i;
     int ch = 0;
 
